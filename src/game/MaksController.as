@@ -6,6 +6,9 @@
 package game {
 import flash.display.Sprite;
 
+import game.player.Diver;
+import game.world.WorldModel;
+
 public class MaksController {
 	private var _container:Sprite;
 
@@ -14,6 +17,10 @@ public class MaksController {
 		_container = container;
 	}
 
-	public function updatePosition(x:Number, y:Number):void {}
+	public function tickDiverView(diverModel:Diver):void {
+	}
+	public function tickWorldView(worldModel:WorldModel):void {
+
+	}
 }
 }

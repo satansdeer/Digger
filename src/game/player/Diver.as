@@ -9,18 +9,26 @@ import game.GameController;
 public class Diver{
 	private var _x:Number;
 	private var _y:Number;
+	private var _targetX:Number;
+
+	private var _sideSpeed:Number = 1;
+
 	private var _speed:Number;
 	private var _speedOffset:Number;
 
-	private const SIDE_SPEED:Number = 1;
 	private const SPEED_DOWN_COEF:Number = .4;
 	private const SPEED_OFFSET_DOWN_COEF:Number = .4;
 
 	public function Diver() {
 		super();
+		_speed = 1;
+		_speedOffset = 0;
 	}
 
 	public function tick():void {
+		updateX();
+
+		// back all offsets
 		updateSpeedOffset();
 	}
 
@@ -31,12 +39,25 @@ public class Diver{
 		return _speed + _speedOffset;
 	}
 
-	public function updatePosition(xOffset:Number):void {
-		_x += SIDE_SPEED * xOffset/(GameController.GAME_WIDTH/2);
-		speedDown();
+	public function setTargetX(targetX:Number):void {
+		_targetX = targetX;
+		if (_targetX != _x) {
+			speedDown();
+		}
 	}
 
 	/* Internal functinos */
+
+	private function updateX():void {
+		if (_x == _targetX) { return; }
+		if(_x < _targetX) {
+			_x += _sideSpeed;
+			if (_x > _targetX) { _x = _targetX; }
+		} else {
+			_x -= _sideSpeed;
+			if (_x < _targetX) { _x = _targetX; }
+		}
+	}
 
 	private function speedDown():void {
 		_speedOffset += SPEED_DOWN_COEF;

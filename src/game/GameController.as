@@ -12,6 +12,7 @@ import flash.events.EventDispatcher;
 import flash.events.MouseEvent;
 
 import game.player.Diver;
+import game.world.WorldModel;
 
 import scene.IScene;
 
@@ -26,6 +27,7 @@ public class GameController extends EventDispatcher implements IScene{
 	private var _debugPanel:DebugPanel;
 	private var _maksController:MaksController;
 	private var _diver:Diver;
+	private var _worldModel:WorldModel;
 
 	private var _paused:Boolean;
 
@@ -46,6 +48,16 @@ public class GameController extends EventDispatcher implements IScene{
 		removeListeners();
 	}
 
+	/* Internal functions */
+
+	private function tick():void {
+		_diver.tick();
+		_worldModel.tick();
+
+		_maksController.tickDiverView(_diver);
+		_maksController.tickWorldView(_worldModel);
+	}
+
 	private function addUserCommandListener():void {
 		_userCommandListener.addEventListener(UserCommandEvent.MOUSE_DOWN, onUserMouseDown);
 	}
@@ -63,12 +75,12 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function onUserMouseDown(event:UserCommandEvent):void {
-		_diver.updatePosition(event.offset);
-		_maksController.updatePosition(_diver.x, _diver.y);
+		_diver.setTargetX(GAME_WIDTH/2 + event.offset);
 	}
 
 	private function onEnterFrame(event:Event):void {
 		if (_paused) { return; }
+		tick();
 	}
 
 }
