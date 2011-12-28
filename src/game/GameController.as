@@ -11,21 +11,31 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.MouseEvent;
 
+import game.player.Diver;
+
 import scene.IScene;
 
 public class GameController extends EventDispatcher implements IScene{
+	public static const GAME_WIDTH:Number = 600;
+	public static const GAME_HEIGHT:Number = 600;
+
 	private var _container:Sprite;
 
 	private var _sceneMoveController:SceneMoveController;
-
+	private var _userCommandListener:UserCommandListener;
 	private var _debugPanel:DebugPanel;
+	private var _maksController:MaksController;
+	private var _diver:Diver;
 
 	private var _paused:Boolean;
 
 	public function GameController(container:Sprite) {
 		_container = container;
 		_sceneMoveController = new SceneMoveController();
+		_userCommandListener = new UserCommandListener(_container);
+		_maksController = new MaksController(_container);
 		_debugPanel = new DebugPanel(this);
+		addListeners();
 	}
 
 	public function open():void {
@@ -36,23 +46,29 @@ public class GameController extends EventDispatcher implements IScene{
 		removeListeners();
 	}
 
+	private function addUserCommandListener():void {
+		_userCommandListener.addEventListener(UserCommandEvent.MOUSE_DOWN, onUserMouseDown);
+	}
+	private function removeUserCommandListener():void {
+		_userCommandListener.removeEventListener(UserCommandEvent.MOUSE_DOWN, onUserMouseDown);
+	}
+
 	private function addListeners():void {
 		_container.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		_container.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		addUserCommandListener()
 	}
 	private function removeListeners():void {
 		_container.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-		_container.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		removeListeners();
+	}
+
+	private function onUserMouseDown(event:UserCommandEvent):void {
+		_diver.updatePosition(event.offset);
+		_maksController.updatePosition(_diver.x, _diver.y);
 	}
 
 	private function onEnterFrame(event:Event):void {
 		if (_paused) { return; }
-	}
-
-	private function onMouseDown(event:MouseEvent):void {
-		if (event.ctrlKey) {
-
-		}
 	}
 
 }
