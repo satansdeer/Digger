@@ -4,13 +4,25 @@
  * Time: 3:47 PM
  */
 package game.world {
-public class WorldModel {
+import game.player.Diver;
 
-	public function WorldModel() {
+public class WorldModel {
+	private var _diver:Diver;
+	private var _depth:Number;
+	private var _diveSpeed:Number;
+
+	private const MAX_DEPTH:Number = 5000;
+
+	public function WorldModel(diver:Diver) {
 		super();
+		_depth = 0;
+		_diver = diver;
 	}
 
 	public function tick():void {
+		_depth += _diver.speed;
 	}
+
+	public function get depth():Number { return _depth; }
 }
 }
