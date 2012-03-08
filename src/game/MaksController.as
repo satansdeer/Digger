@@ -6,7 +6,7 @@
 package game {
 import flash.display.Sprite;
 
-import game.player.Diver;
+import game.player.DiggerModel;
 import game.world.WorldModel;
 
 public class MaksController {
@@ -17,7 +17,7 @@ public class MaksController {
 		_container = container;
 	}
 
-	public function tickDiverView(diverModel:Diver):void {
+	public function tickDiverView(diverModel:DiggerModel):void {
 	}
 	public function tickWorldView(worldModel:WorldModel):void {
 

@@ -4,26 +4,21 @@
  * Time: 11:20 AM
  */
 package {
-	
-	import effect.SmokeParticle;
-	import effect.SmokeParticleEffect;
-	
-	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	
 	import scene.SceneController;
-	
+
+[SWF(width=500, height=500, frameRate=40)]
 	public class Main extends Sprite {
+		public static const WIDTH:int = 500;
+		public static const HEIGHT:int = 500;
+
 		public function Main() {
 			super();
 			var container:Sprite = new Sprite();
 			this.addChild(container);
 			var sceneController:SceneController = new SceneController(container);
-			var hero:DiggerHero = new DiggerHero();
-			hero.x = 130;
-			hero.y = 100;
-			addChild(hero);
-			hero.rotation = 25;
+			sceneController.openMenu();
 		}
 	}
 }

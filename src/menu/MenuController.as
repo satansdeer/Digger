@@ -16,6 +16,7 @@ public class MenuController extends EventDispatcher implements IScene{
 
 	public function MenuController(container:Sprite) {
 		_container = container;
+		addBackground();
 	}
 
 	public function open():void {
@@ -27,6 +28,14 @@ public class MenuController extends EventDispatcher implements IScene{
 
 	public function onClick(event:MouseEvent):void {
 		dispatchEvent(new SceneEvent(SceneEvent.WANT_CLOSE));
+	}
+
+	private function addBackground():void {
+		_container.graphics.beginFill(0xffffff);
+		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
+		_container.graphics.beginFill(0x000000, .3);
+		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
+		_container.graphics.endFill();
 	}
 }
 }

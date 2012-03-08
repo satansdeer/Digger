@@ -13,9 +13,11 @@ public class SceneController {
 		_gameScene = new GameController(container);
 		_menuScene = new MenuController(container);
 
-		_menuScene.open();
-
 		addListeners();
+	}
+
+	public function openMenu():void {
+		_menuScene.open();
 	}
 
 	private function addListeners():void {

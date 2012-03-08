@@ -9,24 +9,21 @@ import debug.DebugPanel;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventDispatcher;
-import flash.events.MouseEvent;
 
-import game.player.Diver;
+import game.player.Digger;
+import game.player.DiggerModel;
 import game.world.WorldModel;
 
 import scene.IScene;
 
 public class GameController extends EventDispatcher implements IScene{
-	public static const GAME_WIDTH:Number = 600;
-	public static const GAME_HEIGHT:Number = 600;
-
 	private var _container:Sprite;
 
 	private var _sceneMoveController:SceneMoveController;
 	private var _userCommandListener:UserCommandListener;
 	private var _debugPanel:DebugPanel;
 	private var _maksController:MaksController;
-	private var _diver:Diver;
+	private var _digger:Digger;
 	private var _worldModel:WorldModel;
 
 	private var _paused:Boolean;
@@ -37,11 +34,11 @@ public class GameController extends EventDispatcher implements IScene{
 		_userCommandListener = new UserCommandListener(_container);
 		_maksController = new MaksController(_container);
 		_debugPanel = new DebugPanel(this);
-		addListeners();
 	}
 
 	public function open():void {
-		_paused = true;
+		createWorld();
+		//_paused = true;
 		addListeners();
 	}
 	public function close():void {
@@ -50,12 +47,28 @@ public class GameController extends EventDispatcher implements IScene{
 
 	/* Internal functions */
 
+	private function createWorld():void {
+		addBackground();
+		_digger = new Digger(new DiggerModel());
+		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
+		_container.addChild(_digger.view);
+		_worldModel = new WorldModel(_digger.model);
+	}
+
+	private function addBackground():void {
+		_container.graphics.beginFill(0xffffff);
+		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
+		_container.graphics.beginFill(0x000000, .05);
+		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
+		_container.graphics.endFill();
+	}
+
 	private function tick():void {
-		_diver.tick();
+		_digger.tick();
 		_worldModel.tick();
 
-		_maksController.tickDiverView(_diver);
-		_maksController.tickWorldView(_worldModel);
+		//_maksController.tickDiverView(_digger);
+		//_maksController.tickWorldView(_worldModel);
 	}
 
 	private function addUserCommandListener():void {
@@ -75,7 +88,7 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function onUserMouseDown(event:UserCommandEvent):void {
-		_diver.setTargetX(GAME_WIDTH/2 + event.offset);
+		_digger.moveToX(Main.WIDTH/2 + event.offset);
 	}
 
 	private function onEnterFrame(event:Event):void {
