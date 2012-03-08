@@ -5,7 +5,7 @@ package effect
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-	public class SmokeParticle extends SmokePartView
+	public class SmokeParticle extends Sprite//SmokePartView
 	{
 		
 		public var duration:Number;

@@ -9,9 +9,9 @@ import debug.DebugPanel;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventDispatcher;
-import flash.events.MouseEvent;
 
-import game.player.Diver;
+import game.player.Digger;
+import game.player.DiggerModel;
 import game.world.WorldModel;
 
 import scene.IScene;
@@ -26,13 +26,15 @@ public class GameController extends EventDispatcher implements IScene{
 	private var _userCommandListener:UserCommandListener;
 	private var _debugPanel:DebugPanel;
 	private var _maksController:MaksController;
-	private var _diver:Diver;
+	private var _digger:Digger;
 	private var _worldModel:WorldModel;
 
 	private var _paused:Boolean;
 
 	public function GameController(container:Sprite) {
 		_container = container;
+		_digger = new Digger(new DiggerModel());
+		_worldModel = new WorldModel(_digger.model);
 		_sceneMoveController = new SceneMoveController();
 		_userCommandListener = new UserCommandListener(_container);
 		_maksController = new MaksController(_container);
@@ -51,11 +53,11 @@ public class GameController extends EventDispatcher implements IScene{
 	/* Internal functions */
 
 	private function tick():void {
-		_diver.tick();
+		_digger.tick();
 		_worldModel.tick();
 
-		_maksController.tickDiverView(_diver);
-		_maksController.tickWorldView(_worldModel);
+		//_maksController.tickDiverView(_digger);
+		//_maksController.tickWorldView(_worldModel);
 	}
 
 	private function addUserCommandListener():void {
@@ -75,7 +77,7 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function onUserMouseDown(event:UserCommandEvent):void {
-		_diver.setTargetX(GAME_WIDTH/2 + event.offset);
+		//_digger.setTargetX(GAME_WIDTH/2 + event.offset);
 	}
 
 	private function onEnterFrame(event:Event):void {

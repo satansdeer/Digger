@@ -6,7 +6,7 @@
 package game.player {
 import game.GameController;
 
-public class Diver{
+public class DiggerModel {
 	private var _x:Number;
 	private var _y:Number;
 	private var _targetX:Number;
@@ -19,7 +19,7 @@ public class Diver{
 	private const SPEED_DOWN_COEF:Number = .4;
 	private const SPEED_OFFSET_DOWN_COEF:Number = .4;
 
-	public function Diver() {
+	public function DiggerModel() {
 		super();
 		_speed = 1;
 		_speedOffset = 0;
