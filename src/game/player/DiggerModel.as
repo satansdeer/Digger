@@ -30,7 +30,6 @@ public class DiggerModel {
 
 		// back all offsets
 		updateSpeedOffset();
-		trace("x : " + _x  + ", y : " + _y);
 	}
 
 	public function setPosition(x:Number,  y:Number):void {
@@ -41,6 +40,8 @@ public class DiggerModel {
 
 	public function get x():Number { return _x; }
 	public function get y():Number { return _y; }
+
+	public function get targetX():Number { return _targetX; }
 
 	public function get speed():Number {
 		return _speed + _speedOffset;
