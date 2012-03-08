@@ -7,9 +7,9 @@
  */
 package game.player {
 public class DiggerRotationModel {
-	private const MAX_ANGLE_OFFSET = 30;
+	private const MAX_ANGLE_OFFSET:Number = 30;
 	//private const MAX_ANGLE_RIGHT_OFFSET = -30;
-	private const ANGLE_MOVE_SPEED = 2;
+	private const ANGLE_MOVE_SPEED:Number = 5;
 
 	private var _currentAngle:Number;
 
@@ -25,17 +25,29 @@ public class DiggerRotationModel {
 	public function get rotation():Number { return _rotation; }
 
 	public function tick():void {
-		if (_diggerModel.targetX != _diggerModel.x) { rotate(); }
+		if (_diggerModel.targetX != _diggerModel.x) {
+			rotateToSide();
+		} else if (_rotation != 0) {
+			backRotate();
+		}
 	}
 
 	/* Internal functions */
 
-	private function rotate():void {
+	private function rotateToSide():void {
 		var coef:int = (_diggerModel.targetX < _diggerModel.x) ? 1 : -1;
 		if (_rotation != MAX_ANGLE_OFFSET * coef) {
 			_rotation += ANGLE_MOVE_SPEED * coef;
 		}
 		if (MAX_ANGLE_OFFSET < Math.abs(_rotation)) { _rotation = coef * MAX_ANGLE_OFFSET; }
+	}
+
+	private function backRotate():void {
+		var coef:int = (_rotation < 0) ? 1 : -1;
+		if (_rotation != 0) {
+			_rotation += ANGLE_MOVE_SPEED * coef;
+		}
+		if (0 < coef * _rotation) { _rotation = 0; }
 	}
 }
 }
