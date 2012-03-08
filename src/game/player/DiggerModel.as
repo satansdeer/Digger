@@ -30,6 +30,13 @@ public class DiggerModel {
 
 		// back all offsets
 		updateSpeedOffset();
+		trace("x : " + _x  + ", y : " + _y);
+	}
+
+	public function setPosition(x:Number,  y:Number):void {
+		_x = x;
+		_y = y;
+		_targetX = x;
 	}
 
 	public function get x():Number { return _x; }

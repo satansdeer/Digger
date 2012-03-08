@@ -17,9 +17,6 @@ import game.world.WorldModel;
 import scene.IScene;
 
 public class GameController extends EventDispatcher implements IScene{
-	public static const GAME_WIDTH:Number = 600;
-	public static const GAME_HEIGHT:Number = 600;
-
 	private var _container:Sprite;
 
 	private var _sceneMoveController:SceneMoveController;
@@ -33,17 +30,15 @@ public class GameController extends EventDispatcher implements IScene{
 
 	public function GameController(container:Sprite) {
 		_container = container;
-		_digger = new Digger(new DiggerModel());
-		_worldModel = new WorldModel(_digger.model);
 		_sceneMoveController = new SceneMoveController();
 		_userCommandListener = new UserCommandListener(_container);
 		_maksController = new MaksController(_container);
 		_debugPanel = new DebugPanel(this);
-		addListeners();
 	}
 
 	public function open():void {
-		_paused = true;
+		createWorld();
+		//_paused = true;
 		addListeners();
 	}
 	public function close():void {
@@ -51,6 +46,22 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	/* Internal functions */
+
+	private function createWorld():void {
+		addBackground();
+		_digger = new Digger(new DiggerModel());
+		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
+		_container.addChild(_digger.view);
+		_worldModel = new WorldModel(_digger.model);
+	}
+
+	private function addBackground():void {
+		_container.graphics.beginFill(0xffffff);
+		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
+		_container.graphics.beginFill(0x000000, .05);
+		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
+		_container.graphics.endFill();
+	}
 
 	private function tick():void {
 		_digger.tick();
@@ -77,7 +88,7 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function onUserMouseDown(event:UserCommandEvent):void {
-		//_digger.setTargetX(GAME_WIDTH/2 + event.offset);
+		_digger.moveToX(Main.WIDTH/2 + event.offset);
 	}
 
 	private function onEnterFrame(event:Event):void {

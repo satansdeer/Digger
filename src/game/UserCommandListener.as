@@ -24,7 +24,7 @@ public class UserCommandListener extends EventDispatcher {
 	}
 
 	private function onMouseDown(event:MouseEvent):void {
-		dispatchEvent(new UserCommandEvent(UserCommandEvent.MOUSE_DOWN, event.stageX - GameController.GAME_WIDTH/2));
+		dispatchEvent(new UserCommandEvent(UserCommandEvent.MOUSE_DOWN, event.stageX - Main.WIDTH/2));
 	}
 }
 }
