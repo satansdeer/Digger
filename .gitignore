@@ -1,3 +1,5 @@
+Digger.iml
+bin/Main-app.xml
 *.DS_Store
 .idea/
 bin/test
