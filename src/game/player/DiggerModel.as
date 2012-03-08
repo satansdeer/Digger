@@ -27,9 +27,6 @@ public class DiggerModel {
 
 	public function tick():void {
 		updateX();
-
-		// back all offsets
-		updateSpeedOffset();
 	}
 
 	public function setPosition(x:Number,  y:Number):void {
@@ -49,15 +46,16 @@ public class DiggerModel {
 
 	public function setTargetX(targetX:Number):void {
 		_targetX = targetX;
-		if (_targetX != _x) {
-			speedDown();
-		}
 	}
 
 	/* Internal functinos */
 
 	private function updateX():void {
-		if (_x == _targetX) { return; }
+		updateSpeedOffset();
+		// back all offsets
+		if (_x == _targetX) {
+			return;
+		}
 		if(_x < _targetX) {
 			_x += _sideSpeed;
 			if (_x > _targetX) { _x = _targetX; }
@@ -65,13 +63,15 @@ public class DiggerModel {
 			_x -= _sideSpeed;
 			if (_x < _targetX) { _x = _targetX; }
 		}
+		speedDown();
 	}
 
 	private function speedDown():void {
-		_speedOffset += SPEED_DOWN_COEF;
+		_speedOffset -= SPEED_DOWN_COEF;
 	}
 
 	private function updateSpeedOffset():void {
+		if (_speedOffset == 0) { return; }
 		if (_speedOffset < 0) {
 			_speedOffset += SPEED_OFFSET_DOWN_COEF;
 			if (_speedOffset > 0) { _speedOffset = 0; }

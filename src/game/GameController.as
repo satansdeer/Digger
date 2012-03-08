@@ -10,6 +10,8 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 
+import game.environment.GroundController;
+
 import game.player.Digger;
 import game.player.DiggerModel;
 import game.world.WorldModel;
@@ -25,6 +27,7 @@ public class GameController extends EventDispatcher implements IScene{
 	private var _maksController:MaksController;
 	private var _digger:Digger;
 	private var _worldModel:WorldModel;
+	private var _ground:GroundController;
 
 	private var _paused:Boolean;
 
@@ -52,19 +55,22 @@ public class GameController extends EventDispatcher implements IScene{
 		_digger = new Digger(new DiggerModel());
 		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
 		_container.addChild(_digger.view);
+		_ground = new GroundController(_digger.model);
+		_container.addChild(_ground.view);
 		_worldModel = new WorldModel(_digger.model);
 	}
 
 	private function addBackground():void {
 		_container.graphics.beginFill(0xffffff);
 		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
-		_container.graphics.beginFill(0x000000, .05);
+		_container.graphics.beginFill(0x5C4033);
 		_container.graphics.drawRect(0, 0, Main.WIDTH, Main.HEIGHT);
 		_container.graphics.endFill();
 	}
 
 	private function tick():void {
 		_digger.tick();
+		_ground.tick();
 		_worldModel.tick();
 
 		//_maksController.tickDiverView(_digger);
