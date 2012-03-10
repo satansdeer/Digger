@@ -44,7 +44,6 @@ public class GameController extends EventDispatcher implements IScene{
 
 	public function open():void {
 		createWorld();
-		//_paused = true;
 		addListeners();
 	}
 	public function close():void {

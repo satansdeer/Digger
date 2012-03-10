@@ -27,9 +27,12 @@ public class GroundController extends ViewController {
 	private var _diggerTail:Vector.<Sprite>;
 	private var _bonusToCreate:Bonus;
 
+	private var _tailController:DiggerTailController;
+
 	public function GroundController(diggerModel:DiggerModel) {
 		super(new Sprite());
 		_diggerModel = diggerModel;
+		_tailController = new DiggerTailController(diggerModel);
 	}
 
 	public function tick():void {
@@ -54,22 +57,12 @@ public class GroundController extends ViewController {
 	private function createObjects():void {
 		var stone:Sprite = createNewStoneByFrequency();
 		if (stone) { addObject(stone); }
-		addObject(createNewDiggerTailPart());
+		addObject(_tailController.createNewTailPart());
 		if (_bonusToCreate) {
 			setBottomPositionForObject(_bonusToCreate);
 			addObject(_bonusToCreate);
 			_bonusToCreate = null;
 		}
-	}
-
-	private function createNewDiggerTailPart():Sprite {
-		var part:Sprite = new Sprite();
-		part.graphics.beginFill(0x000000, .4);
-		part.graphics.drawRect(0, 0, 100, 1);
-		part.graphics.endFill();
-		part.x = _diggerModel.x - 50;
-		part.y = _diggerModel.y + 80;
-		return part;
 	}
 
 	private function createNewStoneByFrequency():Sprite {
