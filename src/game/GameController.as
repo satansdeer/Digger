@@ -54,9 +54,9 @@ public class GameController extends EventDispatcher implements IScene{
 		addBackground();
 		_digger = new Digger(new DiggerModel());
 		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
-		_container.addChild(_digger.view);
 		_ground = new GroundController(_digger.model);
 		_container.addChild(_ground.view);
+		_container.addChild(_digger.view);
 		_worldModel = new WorldModel(_digger.model);
 	}
 

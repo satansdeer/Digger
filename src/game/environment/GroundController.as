@@ -19,6 +19,7 @@ public class GroundController extends ViewController {
 
 	private var _diggerModel:DiggerModel;
 	private var _stones:Vector.<StoneView>;
+	private var _diggerTail:Vector.<Sprite>;
 
 	public function GroundController(diggerModel:DiggerModel) {
 		super(new Sprite());
@@ -26,12 +27,24 @@ public class GroundController extends ViewController {
 	}
 
 	public function tick():void {
-		createNewStoneByFrequency();
-		moveStones();
-		removeStoneIfOutOfScreen();
+		createObjects();
+		moveObjects();
+
+		removeObjectsIfOutOfScreen();
 	}
 
 	/* Internal functions */
+
+	private function moveObjects():void {
+		moveDiggerTail();
+		moveStones();
+	}
+
+	private function moveDiggerTail():void {
+		for each (var part:Sprite in _diggerTail) {
+			part.y -= _diggerModel.speed;
+		}
+	}
 
 	private function moveStones():void {
 		for each (var stone:StoneView in _stones) {
@@ -39,11 +52,39 @@ public class GroundController extends ViewController {
 		}
 	}
 
+	private function createObjects():void {
+		createNewStoneByFrequency();
+		createNewDiggerTailPart();
+	}
+
+	private function createNewDiggerTailPart():void {
+		var part:Sprite = new Sprite();
+		part.graphics.beginFill(0x000000, .4);
+		part.graphics.drawRect(0, 0, 100, 1);
+		part.graphics.endFill();
+		part.x = _diggerModel.x - 50;
+		part.y = _diggerModel.y + 80;
+		if (!_diggerTail) { _diggerTail = new Vector.<Sprite>(); }
+		_diggerTail.push(part);
+		view.addChild(part);
+	}
+
 	private function createNewStoneByFrequency():void {
 		var needCreate:Boolean = Math.random() < STONE_FREQUENCY/100;
 		if (needCreate) {
 			var stone:StoneView = createStone();
 			addStone(stone);
+		}
+	}
+
+	private function removeObjectsIfOutOfScreen():void {
+		removeDiggerPathPartIfOutOfScreen();
+		removeStoneIfOutOfScreen();
+	}
+
+	private function removeDiggerPathPartIfOutOfScreen():void {
+		if (_diggerTail&& _diggerTail.length > 0) {
+			if (_diggerTail[0].y + _diggerTail[0].height < 100) { removeFirstDiggerPathPart(); }
 		}
 	}
 
@@ -71,6 +112,13 @@ public class GroundController extends ViewController {
 		if (view.contains(stone)) { view.removeChild(stone);
 		} else { trace("WARN! stone not on ground container! [GroundController.removeFirstStone]"); }
 		_stones.shift();
+	}
+
+	private function removeFirstDiggerPathPart():void {
+		var part:Sprite = _diggerTail[0];
+		if (view.contains(part)) { view.removeChild(part);
+		} else { trace("WARN! stone not on ground container! [GroundController.removeFirstStone]"); }
+		_diggerTail.shift();
 	}
 }
 }

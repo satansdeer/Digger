@@ -7,9 +7,9 @@
  */
 package game.player {
 public class DiggerRotationModel {
-	private const MAX_ANGLE_OFFSET:Number = 30;
+	private const MAX_ANGLE_OFFSET:Number = 20;
 	//private const MAX_ANGLE_RIGHT_OFFSET = -30;
-	private const ANGLE_MOVE_SPEED:Number = 5;
+	private const ANGLE_MOVE_SPEED:Number = 3;
 
 	private var _currentAngle:Number;
 
