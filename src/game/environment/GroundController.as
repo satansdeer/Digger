@@ -10,16 +10,22 @@ import core.ViewController;
 
 import flash.display.Sprite;
 
+import game.bonus.Bonus;
+
 import game.player.DiggerModel;
 
 import game.world.WorldModel;
+
+import org.osmf.layout.PaddingLayoutFacet;
 
 public class GroundController extends ViewController {
 	private const STONE_FREQUENCY:Number = 3;
 
 	private var _diggerModel:DiggerModel;
+	private var _objects:Vector.<Sprite>;
 	private var _stones:Vector.<StoneView>;
 	private var _diggerTail:Vector.<Sprite>;
+	private var _bonusToCreate:Bonus;
 
 	public function GroundController(diggerModel:DiggerModel) {
 		super(new Sprite());
@@ -33,92 +39,86 @@ public class GroundController extends ViewController {
 		removeObjectsIfOutOfScreen();
 	}
 
+	public function addBonus(bonus:Bonus):void {
+		_bonusToCreate = bonus;
+	}
+
 	/* Internal functions */
 
 	private function moveObjects():void {
-		moveDiggerTail();
-		moveStones();
-	}
-
-	private function moveDiggerTail():void {
-		for each (var part:Sprite in _diggerTail) {
-			part.y -= _diggerModel.speed;
-		}
-	}
-
-	private function moveStones():void {
-		for each (var stone:StoneView in _stones) {
-			stone.y -= _diggerModel.speed;
+		for each (var object:Sprite in _objects) {
+			object.y -= _diggerModel.speed;
 		}
 	}
 
 	private function createObjects():void {
-		createNewStoneByFrequency();
-		createNewDiggerTailPart();
+		var stone:Sprite = createNewStoneByFrequency();
+		if (stone) { addObject(stone); }
+		addObject(createNewDiggerTailPart());
+		if (_bonusToCreate) {
+			setBottomPositionForObject(_bonusToCreate);
+			addObject(_bonusToCreate);
+			_bonusToCreate = null;
+		}
 	}
 
-	private function createNewDiggerTailPart():void {
+	private function createNewDiggerTailPart():Sprite {
 		var part:Sprite = new Sprite();
 		part.graphics.beginFill(0x000000, .4);
 		part.graphics.drawRect(0, 0, 100, 1);
 		part.graphics.endFill();
 		part.x = _diggerModel.x - 50;
 		part.y = _diggerModel.y + 80;
-		if (!_diggerTail) { _diggerTail = new Vector.<Sprite>(); }
-		_diggerTail.push(part);
-		view.addChild(part);
+		return part;
 	}
 
-	private function createNewStoneByFrequency():void {
+	private function createNewStoneByFrequency():Sprite {
 		var needCreate:Boolean = Math.random() < STONE_FREQUENCY/100;
 		if (needCreate) {
-			var stone:StoneView = createStone();
-			addStone(stone);
+			return createStone();
 		}
+		return null;
 	}
 
 	private function removeObjectsIfOutOfScreen():void {
-		removeDiggerPathPartIfOutOfScreen();
-		removeStoneIfOutOfScreen();
+		if (!_objects || _objects.length == 0) { return; }
+			var allRemoved:Boolean = false;
+			while (!allRemoved) {
+				allRemoved = true;
+				for each (var object:Sprite in _objects) {
+					if (object.y + object.height < 100) {
+						removeObjectFromScreen(object);
+						allRemoved = false;
+						break;
+					}
+				}
+			}
 	}
 
-	private function removeDiggerPathPartIfOutOfScreen():void {
-		if (_diggerTail&& _diggerTail.length > 0) {
-			if (_diggerTail[0].y + _diggerTail[0].height < 100) { removeFirstDiggerPathPart(); }
-		}
+	private function removeObjectFromScreen(object:Sprite):void {
+		if (view.contains(object)) { view.removeChild(object);
+		} else { trace("WARN! object not on ground container! [GroundController.removeObjectFromScreen]"); }
+		var index:int = _objects.indexOf(object);
+		if (index != -1) { _objects.splice(index, 1);
+		} else { trace("WARN! object not in list [GroundController.removeObjectFromScreen]")}
 	}
 
-	private function removeStoneIfOutOfScreen():void {
-		if (_stones && _stones.length > 0) {
-			if (_stones[0].y + _stones[0].height < 0) { removeFirstStone(); }
-		}
-	}
-
-	private function createStone():StoneView {
-		var result:StoneView = new StoneView();
-		result.y = Main.HEIGHT;
-		result.x = Math.random() * Main.WIDTH;
+	private function createStone():Sprite {
+		var result:Sprite = new EvilEyesVIew();
+		setBottomPositionForObject(result);
 		return result;
 	}
 
-	private function addStone(stone:StoneView):void {
-		if (!_stones) { _stones = new Vector.<StoneView>(); }
-		_stones.push(stone);
-		view.addChild(stone);
+	private function setBottomPositionForObject(object:Sprite):void {
+		object.y = Main.HEIGHT;
+		object.x = Math.random() * Main.WIDTH;
 	}
 
-	private function removeFirstStone():void {
-		var stone:StoneView = _stones[0];
-		if (view.contains(stone)) { view.removeChild(stone);
-		} else { trace("WARN! stone not on ground container! [GroundController.removeFirstStone]"); }
-		_stones.shift();
+	private function addObject(object:Sprite):void {
+		if (!_objects) { _objects = new Vector.<Sprite>(); }
+		_objects.push(object);
+		view.addChild(object);
 	}
 
-	private function removeFirstDiggerPathPart():void {
-		var part:Sprite = _diggerTail[0];
-		if (view.contains(part)) { view.removeChild(part);
-		} else { trace("WARN! stone not on ground container! [GroundController.removeFirstStone]"); }
-		_diggerTail.shift();
-	}
 }
 }
