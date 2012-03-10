@@ -6,9 +6,13 @@
 package game.player {
 import core.ViewController;
 
+import game.playtime.PlayTimeModel;
+
 public class Digger extends ViewController {
 	private var _model:DiggerModel;
 	private var _rotationModel:DiggerRotationModel;
+
+	private var _playTimeModel:PlayTimeModel;
 
 	public function Digger(model:DiggerModel):void {
 		super(new DuckHitD());
@@ -17,6 +21,10 @@ public class Digger extends ViewController {
 	}
 
 	public function get model():DiggerModel { return _model; }
+
+	public function addPlayTimeModel(playTimeModel:PlayTimeModel):void {
+		_playTimeModel = playTimeModel;
+	}
 
 	public function setPosition(x:Number, y:Number):void {
 		_model.setPosition(x, y);
@@ -30,6 +38,9 @@ public class Digger extends ViewController {
 		view.x = _model.x;
 		view.y = _model.y;
 		view.rotation = _rotationModel.rotation;
+		if (_playTimeModel && _playTimeModel.totalPlayTime - _playTimeModel.currentTime < _playTimeModel.totalPlayTime/10) {
+			view.alpha = _playTimeModel.totalPlayTime/20;
+		}
 	}
 
 	public function moveToX(x:Number):void {
