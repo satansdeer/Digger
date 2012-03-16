@@ -14,18 +14,13 @@ import game.bonus.Bonus;
 
 import game.player.DiggerModel;
 
-import game.world.WorldModel;
-
-import org.osmf.layout.PaddingLayoutFacet;
-
 public class GroundController extends ViewController {
 	private const STONE_FREQUENCY:Number = 3;
 
 	private var _diggerModel:DiggerModel;
 	private var _objects:Vector.<Sprite>;
-	private var _stones:Vector.<StoneView>;
-	private var _diggerTail:Vector.<Sprite>;
 	private var _bonusToCreate:Bonus;
+	private var _bonusListToRemove:Vector.<Bonus>;
 
 	private var _tailController:DiggerTailController;
 
@@ -36,14 +31,19 @@ public class GroundController extends ViewController {
 	}
 
 	public function tick():void {
-		createObjects();
+		createNewObjects();
 		moveObjects();
 
 		removeObjectsIfOutOfScreen();
+		removeBonusIfNeed();
 	}
 
-	public function addBonus(bonus:Bonus):void {
-		_bonusToCreate = bonus;
+	public function addBonus(aBonus:Bonus):void {
+		_bonusToCreate = aBonus;
+	}
+
+	public function removeBonus(aBonus:Bonus):void {
+	 	addBonusForRemove(aBonus);
 	}
 
 	/* Internal functions */
@@ -54,7 +54,7 @@ public class GroundController extends ViewController {
 		}
 	}
 
-	private function createObjects():void {
+	private function createNewObjects():void {
 		var stone:Sprite = createNewStoneByFrequency();
 		if (stone) { addObject(stone); }
 		addObject(_tailController.createNewTailPart());
@@ -102,6 +102,14 @@ public class GroundController extends ViewController {
 		return result;
 	}
 
+	private function removeBonusIfNeed():void {
+		if (!_bonusListToRemove) { return; }
+		for each (var aBonus:Bonus in _bonusListToRemove) {
+			removeObjectFromScreen(aBonus);
+		}
+		_bonusListToRemove.splice(0, _bonusListToRemove.length);
+	}
+
 	private function setBottomPositionForObject(object:Sprite):void {
 		object.y = Main.HEIGHT;
 		object.x = Math.random() * Main.WIDTH;
@@ -111,6 +119,11 @@ public class GroundController extends ViewController {
 		if (!_objects) { _objects = new Vector.<Sprite>(); }
 		_objects.push(object);
 		view.addChild(object);
+	}
+
+	private function addBonusForRemove(aBonus:Bonus):void {
+		if (!_bonusListToRemove) { _bonusListToRemove = new Vector.<Bonus>(); }
+		_bonusListToRemove.push(aBonus);
 	}
 
 }

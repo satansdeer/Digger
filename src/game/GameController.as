@@ -59,7 +59,7 @@ public class GameController extends EventDispatcher implements IScene{
 		_digger = new Digger(new DiggerModel());
 		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
 		_ground = new GroundController(_digger.model);
-		_bonusController = new BonusController(_digger.model, _ground);
+		_bonusController = new BonusController(_digger, _ground);
 		_playTimeModel = new PlayTimeModel();
 		_digger.addPlayTimeModel(_playTimeModel);
 		_container.addChild(_ground.view);
@@ -85,9 +85,6 @@ public class GameController extends EventDispatcher implements IScene{
 		if (checkForEndGame()) {
 			stopGame();
 		}
-
-		//_maksController.tickDiverView(_digger);
-		//_maksController.tickWorldView(_worldModel);
 	}
 
 	private function checkForEndGame():Boolean {
