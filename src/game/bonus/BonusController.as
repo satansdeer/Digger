@@ -51,16 +51,18 @@ public class BonusController {
 
 	private function checkHitTestDigger():void {
 		if (!_bonusList) { return; }
-		var indexesForRemove:Vector.<int> = new Vector.<int>();
 		for (var i:int = 0; i < _bonusList.length; ++i) {
 			if (_bonusList[i].hitTestObject(_digger.view)) {
-				_groundController.removeBonus(_bonusList[i]);
-				indexesForRemove.push(i);
+				removeBonusByIndex(i);
+				_playTimeModel.resetCurrentTime();
+				break;
 			}
 		}
-		for (var j:int = indexesForRemove.length-1; j >=0 ; --j) {
-			_bonusList.splice(indexesForRemove[j], 1);
-		}
+	}
+
+	private function removeBonusByIndex(index:int):void {
+		_groundController.removeBonus(_bonusList[index]);
+		_bonusList.splice(index, 1);
 	}
 
 }
