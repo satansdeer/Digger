@@ -11,10 +11,12 @@ import flash.display.Sprite;
 import game.environment.GroundController;
 import game.player.Digger;
 import game.player.DiggerModel;
+import game.playtime.PlayTimeModel;
 
 public class BonusController {
 	private var _digger:Digger;
 	private var _groundController:GroundController;
+	private var _playTimeModel:PlayTimeModel;
 	private var _bonusList:Vector.<Bonus>;
 
 	private const BONUS_FREQUENCY:Number = .3;
@@ -22,6 +24,10 @@ public class BonusController {
 	public function BonusController(digger:Digger, groundController:GroundController) {
 		_digger = digger;
 		_groundController = groundController;
+	}
+
+	public function set playTimeModel(value:PlayTimeModel):void {
+		_playTimeModel = value;
 	}
 
 	public function tick():void {

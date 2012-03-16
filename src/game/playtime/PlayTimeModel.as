@@ -21,6 +21,7 @@ public class PlayTimeModel {
 	}
 
 	public function get currentTime():Number { return _currentTime; }
+	public function resetCurrentTime():void { _currentTime = 0; }
 
 	public function get totalPlayTime():uint { return PLAY_TIME; }
 

@@ -40,8 +40,7 @@ public class GameController extends EventDispatcher implements IScene{
 		_container = container;
 		_sceneMoveController = new SceneMoveController();
 		_userCommandListener = new UserCommandListener(_container);
-		_maksController = new MaksController(_container);
-		_debugPanel = new DebugPanel(this);
+		_bonusController = new BonusController(_digger, _ground);
 	}
 
 	public function open():void {
@@ -59,8 +58,8 @@ public class GameController extends EventDispatcher implements IScene{
 		_digger = new Digger(new DiggerModel());
 		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
 		_ground = new GroundController(_digger.model);
-		_bonusController = new BonusController(_digger, _ground);
 		_playTimeModel = new PlayTimeModel();
+		_bonusController.playTimeModel =_playTimeModel;
 		_digger.addPlayTimeModel(_playTimeModel);
 		_container.addChild(_ground.view);
 		_container.addChild(_digger.view);
