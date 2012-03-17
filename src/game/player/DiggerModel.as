@@ -11,10 +11,13 @@ public class DiggerModel {
 	private var _y:Number;
 	private var _targetX:Number;
 
+	private var _extraModel:DiggerExtraModel
+
 	private var _sideSpeed:Number = 1;
 
 	private var _speed:Number;
 	private var _speedOffset:Number;
+
 
 	private const SPEED_DOWN_COEF:Number = .4;
 	private const SPEED_OFFSET_DOWN_COEF:Number = .4;
@@ -29,6 +32,10 @@ public class DiggerModel {
 		updateX();
 	}
 
+	public function set extraModel(value:DiggerExtraModel):void {
+		_extraModel = value;
+	}
+
 	public function setPosition(x:Number,  y:Number):void {
 		_x = x;
 		_y = y;
@@ -41,7 +48,9 @@ public class DiggerModel {
 	public function get targetX():Number { return _targetX; }
 
 	public function get speed():Number {
-		return _speed + _speedOffset;
+		var extraSpeed:Number = (_extraModel) ? _extraModel.speed : 0;
+		return _speed + _speedOffset + extraSpeed;
+		trace("get speed");
 	}
 
 	public function setTargetX(targetX:Number):void {

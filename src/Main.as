@@ -9,16 +9,17 @@ package {
 	import scene.SceneController;
 
 [SWF(width=500, height=500, frameRate=40)]
-	public class Main extends Sprite {
-		public static const WIDTH:int = 500;
-		public static const HEIGHT:int = 500;
+public class Main extends Sprite {
+	public static const WIDTH:int = 500;
+	public static const HEIGHT:int = 500;
+	public static const FRAME_RATE = 40;
 
-		public function Main() {
-			super();
-			var container:Sprite = new Sprite();
-			this.addChild(container);
-			var sceneController:SceneController = new SceneController(container);
-			sceneController.openMenu();
-		}
+	public function Main() {
+		super();
+		var container:Sprite = new Sprite();
+		this.addChild(container);
+		var sceneController:SceneController = new SceneController(container);
+		sceneController.openMenu();
 	}
+}
 }
