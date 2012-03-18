@@ -99,7 +99,7 @@ public class GroundController extends ViewController implements IShifting {
 	}
 
 	private function createStone():Sprite {
-		var result:Sprite = new EvilEyesVIew();
+		var result:Sprite = new StoneView();
 		setBottomPositionForObject(result);
 		return result;
 	}

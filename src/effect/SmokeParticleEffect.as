@@ -31,7 +31,7 @@ package effect
 		
 		public function start():void{
 			for (var i:int; i<partsNum; i++){
-				setTimeout(createParticle, Math.ceil(Math.random() * 3), particlesArray[i]); 
+				setTimeout(createParticle, Math.ceil(Math.random() * 3), particlesArray[i]);
 			}
 		}
 		

@@ -4,6 +4,9 @@
  * Time: 11:32 AM
  */
 package menu {
+import effect.SmokeParticle;
+import effect.SmokeParticleEffect;
+
 import flash.display.Sprite;
 import flash.events.EventDispatcher;
 import flash.events.MouseEvent;

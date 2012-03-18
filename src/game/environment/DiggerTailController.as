@@ -20,9 +20,9 @@ public class DiggerTailController {
 	public function createNewTailPart():Sprite {
 		var part:Sprite = new Sprite();
 		part.graphics.beginFill(0x000000, .4);
-		part.graphics.drawRect(0, 0, 100, 1);
+		part.graphics.drawRect(0, 0, 50, 1);
 		part.graphics.endFill();
-		part.x = _diggerModel.x - 50;
+		part.x = _diggerModel.x - 25;
 		part.y = _diggerModel.y + 80;
 		return part;
 	}

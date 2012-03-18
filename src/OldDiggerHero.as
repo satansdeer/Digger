@@ -6,7 +6,6 @@ package
 	
 	public class OldDiggerHero extends Sprite
 	{
-		/*
 		private var _cabin:CabinView = new CabinView;
 		private var _hero:HeroView = new HeroView;
 		private var _drill:AllDrillsView = new AllDrillsView;
@@ -17,7 +16,7 @@ package
 		private var _leftPrticles:ParticlesView;
 		private var _rightPrticles:ParticlesView;
 		
-		public function DiggerHero()
+		public function OldDiggerHero()
 		{
 			super();
 			init();
@@ -53,6 +52,6 @@ package
 			_leftPrticles.x = 23;
 			_leftPrticles.y = 77;
 			_leftPrticles.scaleX = -1;
-		}*/
+		}
 	}
 }

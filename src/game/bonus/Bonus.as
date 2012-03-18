@@ -29,8 +29,8 @@ public class Bonus extends Sprite {
 	public function get type():uint { return _type; }
 
 	private function createSprite():void {
-		var sprite:Sprite = _type == MEDIC ? new MedKitBonusView() : _type == SPEED ? new GaussGunBonusView() : new TankBase2();
-		this.addChild(sprite);
+		//var sprite:Sprite = _type == MEDIC ? new new() : _type == SPEED ? new GaussGunBonusView() : new TankBase2();
+		//this.addChild(sprite);
 	}
 }
 }
