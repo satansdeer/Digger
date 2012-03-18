@@ -7,7 +7,7 @@
  */
 package game.playtime {
 public class PlayTimeModel {
-	private const PLAY_TIME:uint = 100;
+	private const PLAY_TIME:uint = 10;
 
 	private var _currentTime:Number;
 

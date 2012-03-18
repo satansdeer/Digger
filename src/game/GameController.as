@@ -7,6 +7,7 @@ package game {
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventDispatcher;
+import flash.events.MouseEvent;
 
 import game.bonus.BonusController;
 
@@ -18,6 +19,8 @@ import game.playtime.PlayTimeController;
 import game.world.WorldModel;
 
 import scene.IScene;
+import scene.SceneEvent;
+import scene.SceneEvent;
 
 public class GameController extends EventDispatcher implements IScene{
 	private var _container:Sprite;
@@ -45,6 +48,7 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 	public function close():void {
 		removeListeners();
+		removeWorld();
 	}
 
 	/* Internal functions */
@@ -61,11 +65,17 @@ public class GameController extends EventDispatcher implements IScene{
 		_bonusController = new BonusController(_digger, _ground);
 		_bonusController.playTimeModel = _playTimeController.model;
 		_shiftingControllers.push(_bonusController);
+		_worldModel = new WorldModel(_digger.model);
+		_shiftingControllers.push(_worldModel);
 		_container.addChild(_ground.view);
 		_container.addChild(_digger.view);
 		_container.addChild(_playTimeController.view);
-		_worldModel = new WorldModel(_digger.model);
-		_shiftingControllers.push(_worldModel);
+	}
+
+	private function removeWorld():void {
+		_container.removeChild(_ground.view);
+		_container.removeChild(_digger.view);
+		_container.removeChild(_playTimeController.view);
 	}
 
 	private function addBackground():void {
@@ -92,6 +102,12 @@ public class GameController extends EventDispatcher implements IScene{
 
 	private function stopGame():void {
 		_paused = true;
+		_container.addEventListener(MouseEvent.CLICK, onMouseClickForEnd);
+	}
+
+	private function onMouseClickForEnd(event:MouseEvent):void {
+		_container.removeEventListener(MouseEvent.CLICK, onMouseClickForEnd);
+		dispatchEvent(new SceneEvent(SceneEvent.WANT_CLOSE));
 	}
 
 	private function addUserCommandListener():void {
@@ -103,11 +119,11 @@ public class GameController extends EventDispatcher implements IScene{
 
 	private function addListeners():void {
 		_container.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		addUserCommandListener()
+		addUserCommandListener();
 	}
 	private function removeListeners():void {
 		_container.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-		removeListeners();
+		removeUserCommandListener();
 	}
 
 	private function onUserMouseDown(event:UserCommandEvent):void {

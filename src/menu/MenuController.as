@@ -19,10 +19,10 @@ public class MenuController extends EventDispatcher implements IScene{
 
 	public function MenuController(container:Sprite) {
 		_container = container;
-		addBackground();
 	}
 
 	public function open():void {
+		addBackground();
 		_container.addEventListener(MouseEvent.CLICK, onClick);
 	}
 	public function close():void {
