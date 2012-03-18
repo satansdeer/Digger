@@ -18,7 +18,7 @@ import game.player.DiggerHero;
 import game.player.DiggerModel;
 
 public class GroundController extends ViewController implements IShifting {
-	private const STONE_FREQUENCY:Number = 3;
+	private const STONE_FREQUENCY:Number = 10;
 
 	private var _digger:DiggerHero;
 	private var _objects:Vector.<Sprite>;
@@ -100,7 +100,7 @@ public class GroundController extends ViewController implements IShifting {
 	}
 
 	private function createStone():Sprite {
-		var result:Sprite = new WayView();
+		var result:Sprite = Math.random() < .8 ? new StonesView() : new GoldView();
 		setBottomPositionForObject(result);
 		return result;
 	}

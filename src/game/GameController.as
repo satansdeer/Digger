@@ -45,6 +45,7 @@ public class GameController extends EventDispatcher implements IScene{
 	public function open():void {
 		createWorld();
 		addListeners();
+		_paused = false;
 	}
 	public function close():void {
 		removeListeners();
@@ -76,6 +77,7 @@ public class GameController extends EventDispatcher implements IScene{
 		_container.removeChild(_ground.view);
 		_container.removeChild(_digger.view);
 		_container.removeChild(_playTimeController.view);
+		_shiftingControllers = new Vector.<IShifting>();
 	}
 
 	private function addBackground():void {
