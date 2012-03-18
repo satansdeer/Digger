@@ -23,8 +23,8 @@ public class DiggerTailController {
 		//part.graphics.drawRect(0, 0, 50, 1);
 		//part.graphics.endFill();
 		var waySprite:WayView = new WayView();
-		waySprite.x = -25;
-		waySprite.y = 80;
+		waySprite.x = -27;
+		waySprite.y = 82;
 		part.x = _digger.model.x;
 		part.y = _digger.model.y;
 		part.addChild(waySprite);
