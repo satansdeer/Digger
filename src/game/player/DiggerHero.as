@@ -6,15 +6,17 @@
 package game.player {
 import core.ViewController;
 
+import game.IShifting;
+
 import game.playtime.PlayTimeModel;
 
-public class Digger extends ViewController {
+public class DiggerHero extends ViewController implements IShifting {
 	private var _model:DiggerModel;
 	private var _rotationModel:DiggerRotationModel;
 
 	private var _playTimeModel:PlayTimeModel;
 
-	public function Digger(model:DiggerModel):void {
+	public function DiggerHero(model:DiggerModel):void {
 		super(new DuckHitD());
 		_model = model;
 		_rotationModel = new DiggerRotationModel(_model);

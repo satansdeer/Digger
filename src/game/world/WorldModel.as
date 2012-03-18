@@ -4,9 +4,10 @@
  * Time: 3:47 PM
  */
 package game.world {
+import game.IShifting;
 import game.player.DiggerModel;
 
-public class WorldModel {
+public class WorldModel implements IShifting {
 	private var _diver:DiggerModel;
 	private var _depth:Number;
 	private var _diveSpeed:Number;

@@ -8,21 +8,23 @@
 package game.bonus {
 import flash.display.Sprite;
 
+import game.IShifting;
+
 import game.environment.GroundController;
-import game.player.Digger;
+import game.player.DiggerHero;
 import game.player.DiggerExtraModel;
 import game.player.DiggerModel;
 import game.playtime.PlayTimeModel;
 
-public class BonusController {
-	private var _digger:Digger;
+public class BonusController implements IShifting{
+	private var _digger:DiggerHero;
 	private var _groundController:GroundController;
 	private var _playTimeModel:PlayTimeModel;
 	private var _bonusList:Vector.<Bonus>;
 
 	private const BONUS_FREQUENCY:Number = .3;
 
-	public function BonusController(digger:Digger, groundController:GroundController) {
+	public function BonusController(digger:DiggerHero, groundController:GroundController) {
 		_digger = digger;
 		_groundController = groundController;
 	}

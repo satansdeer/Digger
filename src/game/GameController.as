@@ -4,8 +4,6 @@
  * Time: 11:32 AM
  */
 package game {
-import debug.DebugPanel;
-
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -14,10 +12,9 @@ import game.bonus.BonusController;
 
 import game.environment.GroundController;
 
-import game.player.Digger;
+import game.player.DiggerHero;
 import game.player.DiggerModel;
-import game.playtime.PlayTimeComponent;
-import game.playtime.PlayTimeModel;
+import game.playtime.PlayTimeController;
 import game.world.WorldModel;
 
 import scene.IScene;
@@ -25,22 +22,20 @@ import scene.IScene;
 public class GameController extends EventDispatcher implements IScene{
 	private var _container:Sprite;
 
-	private var _sceneMoveController:SceneMoveController;
 	private var _userCommandListener:UserCommandListener;
-	private var _debugPanel:DebugPanel;
-	private var _maksController:MaksController;
-	private var _digger:Digger;
+	private var _digger:DiggerHero;
 	private var _worldModel:WorldModel;
 	private var _ground:GroundController;
 	private var _bonusController:BonusController;
-	private var _playTimeModel:PlayTimeModel;
-	private var _playTimeComponent:PlayTimeComponent;
+	private var _playTimeController:PlayTimeController;
+
+	private var _shiftingControllers:Vector.<IShifting>;
 
 	private var _paused:Boolean;
 
 	public function GameController(container:Sprite) {
 		_container = container;
-		_sceneMoveController = new SceneMoveController();
+		_shiftingControllers = new Vector.<IShifting>();
 		_userCommandListener = new UserCommandListener(_container);
 	}
 
@@ -56,18 +51,21 @@ public class GameController extends EventDispatcher implements IScene{
 
 	private function createWorld():void {
 		addBackground();
-		_digger = new Digger(new DiggerModel());
+		_digger = new DiggerHero(new DiggerModel());
 		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
-		_playTimeModel = new PlayTimeModel();
-		_playTimeComponent = new PlayTimeComponent(_playTimeModel, Main.WIDTH - 50, 10);
+		_shiftingControllers.push(_digger);
+		_playTimeController = new PlayTimeController(Main.WIDTH - 50, 10);
+		_shiftingControllers.push(_playTimeController);
 		_ground = new GroundController(_digger.model);
+		_shiftingControllers.push(_ground);
 		_bonusController = new BonusController(_digger, _ground);
-		_bonusController.playTimeModel =_playTimeModel;
-		_digger.addPlayTimeModel(_playTimeModel);
+		_bonusController.playTimeModel = _playTimeController.model;
+		_shiftingControllers.push(_bonusController);
 		_container.addChild(_ground.view);
 		_container.addChild(_digger.view);
-		_container.addChild(_playTimeComponent.view);
+		_container.addChild(_playTimeController.view);
 		_worldModel = new WorldModel(_digger.model);
+		_shiftingControllers.push(_worldModel);
 	}
 
 	private function addBackground():void {
@@ -79,12 +77,9 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function tick():void {
-		_digger.tick();
-		_bonusController.tick();
-		_ground.tick();
-		_playTimeModel.tick();
-		_playTimeComponent.tick();
-		_worldModel.tick();
+		for each (var shiftingController:IShifting in _shiftingControllers) {
+			shiftingController.tick();
+		}
 
 		if (checkForEndGame()) {
 			stopGame();
@@ -92,7 +87,7 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function checkForEndGame():Boolean {
-		return _playTimeModel.isEndGame();
+		return _playTimeController.isEndGame();
 	}
 
 	private function stopGame():void {

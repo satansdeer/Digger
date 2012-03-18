@@ -12,22 +12,29 @@ import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
-public class PlayTimeComponent extends ViewController {
+import game.IShifting;
+
+public class PlayTimeController extends ViewController implements IShifting {
 	private var _model:PlayTimeModel;
 	private var _currentTimeSec:int;
 	private var _label:TextField;
 
-	public function PlayTimeComponent(model:PlayTimeModel, x:Number, y:Number) {
+	public function PlayTimeController(x:Number, y:Number) {
 		super(new Sprite());
 		view.x = x;
 		view.y = y;
-		_model = model;
+		_model = new PlayTimeModel();
 		_label = createLabel();
 		view.addChild(_label);
 		currentTimeSec = model.totalPlayTime;
 	}
 
-	public function tick() {
+	public function get model():PlayTimeModel { return _model; }
+
+	public function isEndGame():Boolean { return _model.isEndGame(); }
+
+	public function tick():void {
+		_model.tick();
 		if (_currentTimeSec != int(_model.totalPlayTime - _model.currentTime)) {
 			trace("update current time sec [PlayTimeController.tick]");
 			currentTimeSec = _model.totalPlayTime - _model.currentTime;

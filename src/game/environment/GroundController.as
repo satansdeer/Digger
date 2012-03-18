@@ -10,11 +10,13 @@ import core.ViewController;
 
 import flash.display.Sprite;
 
+import game.IShifting;
+
 import game.bonus.Bonus;
 
 import game.player.DiggerModel;
 
-public class GroundController extends ViewController {
+public class GroundController extends ViewController implements IShifting {
 	private const STONE_FREQUENCY:Number = 3;
 
 	private var _diggerModel:DiggerModel;

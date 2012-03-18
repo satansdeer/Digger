@@ -4,7 +4,7 @@ package
 	
 	import flash.display.Sprite;
 	
-	public class DiggerHero extends Sprite
+	public class OldDiggerHero extends Sprite
 	{
 		/*
 		private var _cabin:CabinView = new CabinView;
