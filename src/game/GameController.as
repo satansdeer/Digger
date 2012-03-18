@@ -56,7 +56,7 @@ public class GameController extends EventDispatcher implements IScene{
 		_shiftingControllers.push(_digger);
 		_playTimeController = new PlayTimeController(Main.WIDTH - 50, 10);
 		_shiftingControllers.push(_playTimeController);
-		_ground = new GroundController(_digger.model);
+		_ground = new GroundController(_digger);
 		_shiftingControllers.push(_ground);
 		_bonusController = new BonusController(_digger, _ground);
 		_bonusController.playTimeModel = _playTimeController.model;

@@ -13,23 +13,24 @@ import flash.display.Sprite;
 import game.IShifting;
 
 import game.bonus.Bonus;
+import game.player.DiggerHero;
 
 import game.player.DiggerModel;
 
 public class GroundController extends ViewController implements IShifting {
 	private const STONE_FREQUENCY:Number = 3;
 
-	private var _diggerModel:DiggerModel;
+	private var _digger:DiggerHero;
 	private var _objects:Vector.<Sprite>;
 	private var _bonusToCreate:Bonus;
 	private var _bonusListToRemove:Vector.<Bonus>;
 
 	private var _tailController:DiggerTailController;
 
-	public function GroundController(diggerModel:DiggerModel) {
+	public function GroundController(digger:DiggerHero) {
 		super(new Sprite());
-		_diggerModel = diggerModel;
-		_tailController = new DiggerTailController(diggerModel);
+		_digger = digger;
+		_tailController = new DiggerTailController(digger);
 	}
 
 	public function tick():void {
@@ -52,7 +53,7 @@ public class GroundController extends ViewController implements IShifting {
 
 	private function moveObjects():void {
 		for each (var object:Sprite in _objects) {
-			object.y -= _diggerModel.speed;
+			object.y -= _digger.model.speed;
 		}
 	}
 
@@ -99,7 +100,7 @@ public class GroundController extends ViewController implements IShifting {
 	}
 
 	private function createStone():Sprite {
-		var result:Sprite = new StoneView();
+		var result:Sprite = new WayView();
 		setBottomPositionForObject(result);
 		return result;
 	}

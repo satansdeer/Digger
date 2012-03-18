@@ -8,22 +8,27 @@
 package game.environment {
 import flash.display.Sprite;
 
-import game.player.DiggerModel;
+import game.player.DiggerHero;
 
 public class DiggerTailController {
-	private var _diggerModel:DiggerModel;
+	private var _digger:DiggerHero;
 
-	public function DiggerTailController(diggerModel:DiggerModel) {
-		_diggerModel = diggerModel;
+	public function DiggerTailController(digger:DiggerHero) {
+		_digger = digger;
 	}
 
 	public function createNewTailPart():Sprite {
 		var part:Sprite = new Sprite();
-		part.graphics.beginFill(0x000000, .4);
-		part.graphics.drawRect(0, 0, 50, 1);
-		part.graphics.endFill();
-		part.x = _diggerModel.x - 25;
-		part.y = _diggerModel.y + 80;
+		//part.graphics.beginFill(0x000000, .4);
+		//part.graphics.drawRect(0, 0, 50, 1);
+		//part.graphics.endFill();
+		var waySprite:WayView = new WayView();
+		waySprite.x = -25;
+		waySprite.y = 80;
+		part.x = _digger.model.x;
+		part.y = _digger.model.y;
+		part.addChild(waySprite);
+		part.rotation = _digger.view.rotation;
 		return part;
 	}
 
