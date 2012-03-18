@@ -10,6 +10,7 @@ import flash.display.Sprite;
 
 import game.environment.GroundController;
 import game.player.Digger;
+import game.player.DiggerExtraModel;
 import game.player.DiggerModel;
 import game.playtime.PlayTimeModel;
 
@@ -53,8 +54,12 @@ public class BonusController {
 		if (!_bonusList) { return; }
 		for (var i:int = 0; i < _bonusList.length; ++i) {
 			if (_bonusList[i].hitTestObject(_digger.view)) {
+				if (_bonusList[i].type == Bonus.SPEED) {
+					_digger.model.extraModel = new DiggerExtraModel(2, 5);
+				} else {
+					_playTimeModel.resetCurrentTime();
+				}
 				removeBonusByIndex(i);
-				_playTimeModel.resetCurrentTime();
 				break;
 			}
 		}

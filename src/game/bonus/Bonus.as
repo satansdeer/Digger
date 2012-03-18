@@ -10,9 +10,9 @@ import flash.display.Sprite;
 
 public class Bonus extends Sprite {
 
-	private var MEDIC:uint = 0;
-	private var SPEED:uint = 1;
-	private var DEFENCE:uint = 2;
+	public static var MEDIC:uint = 0;
+	public static var SPEED:uint = 1;
+	public static var DEFENCE:uint = 2;
 
 	private var _type:uint;
 
@@ -25,6 +25,8 @@ public class Bonus extends Sprite {
 		_type = type;
 		createSprite();
 	}
+
+	public function get type():uint { return _type; }
 
 	private function createSprite():void {
 		var sprite:Sprite = _type == MEDIC ? new MedKitBonusView() : _type == SPEED ? new GaussGunBonusView() : new TankBase2();

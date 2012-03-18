@@ -21,6 +21,8 @@ public class DiggerExtraModel {
 
 	public function isEnd():Boolean { return _durationSec == 0; }
 
+	public function clear():void { _speed = 0; }
+
 	public function get speed():Number { return _speed; }
 }
 }

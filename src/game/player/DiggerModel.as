@@ -4,7 +4,6 @@
  * Time: 3:26 PM
  */
 package game.player {
-import game.GameController;
 
 public class DiggerModel {
 	private var _x:Number;
@@ -26,13 +25,17 @@ public class DiggerModel {
 		super();
 		_speed = 1;
 		_speedOffset = 0;
+		_extraModel = new DiggerExtraModel(0, 0);
 	}
 
 	public function tick():void {
 		updateX();
+		if (!_extraModel.isEnd()) { _extraModel.tick(); }
+		if (_extraModel.isEnd()) { _extraModel.clear(); }
 	}
 
 	public function set extraModel(value:DiggerExtraModel):void {
+		if (!value) { return; }
 		_extraModel = value;
 	}
 
@@ -48,9 +51,7 @@ public class DiggerModel {
 	public function get targetX():Number { return _targetX; }
 
 	public function get speed():Number {
-		var extraSpeed:Number = (_extraModel) ? _extraModel.speed : 0;
-		return _speed + _speedOffset + extraSpeed;
-		trace("get speed");
+		return _speed + _speedOffset + _extraModel.speed;
 	}
 
 	public function setTargetX(targetX:Number):void {
