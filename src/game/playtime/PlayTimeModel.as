@@ -16,7 +16,7 @@ public class PlayTimeModel {
 	}
 
 	public function tick():void {
-		_currentTime += 1/25;
+		_currentTime += 1/Main.FRAME_RATE;
 		if (_currentTime > PLAY_TIME) { _currentTime = PLAY_TIME; }
 	}
 

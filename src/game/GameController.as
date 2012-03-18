@@ -16,6 +16,7 @@ import game.environment.GroundController;
 
 import game.player.Digger;
 import game.player.DiggerModel;
+import game.playtime.PlayTimeComponent;
 import game.playtime.PlayTimeModel;
 import game.world.WorldModel;
 
@@ -33,6 +34,7 @@ public class GameController extends EventDispatcher implements IScene{
 	private var _ground:GroundController;
 	private var _bonusController:BonusController;
 	private var _playTimeModel:PlayTimeModel;
+	private var _playTimeComponent:PlayTimeComponent;
 
 	private var _paused:Boolean;
 
@@ -57,12 +59,14 @@ public class GameController extends EventDispatcher implements IScene{
 		_digger = new Digger(new DiggerModel());
 		_digger.setPosition(Main.WIDTH/2, Main.HEIGHT/2);
 		_playTimeModel = new PlayTimeModel();
+		_playTimeComponent = new PlayTimeComponent(_playTimeModel, Main.WIDTH - 50, 10);
 		_ground = new GroundController(_digger.model);
 		_bonusController = new BonusController(_digger, _ground);
 		_bonusController.playTimeModel =_playTimeModel;
 		_digger.addPlayTimeModel(_playTimeModel);
 		_container.addChild(_ground.view);
 		_container.addChild(_digger.view);
+		_container.addChild(_playTimeComponent.view);
 		_worldModel = new WorldModel(_digger.model);
 	}
 
@@ -79,6 +83,7 @@ public class GameController extends EventDispatcher implements IScene{
 		_bonusController.tick();
 		_ground.tick();
 		_playTimeModel.tick();
+		_playTimeComponent.tick();
 		_worldModel.tick();
 
 		if (checkForEndGame()) {
