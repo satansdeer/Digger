@@ -19,18 +19,18 @@ public class DiggerTailController {
 
 	public function createNewTailPart():Sprite {
 		var part:Sprite = new Sprite();
-		//part.graphics.beginFill(0x000000, .4);
-		//part.graphics.drawRect(0, 0, 50, 1);
-		//part.graphics.endFill();
-		/*
-		var waySprite:WayView = new WayView();
-		waySprite.x = -27;
-		waySprite.y = 82;
+		part.graphics.beginFill(0x000000, .4);
+		part.graphics.drawRect(-27, 82, 50, 1);
+		part.graphics.endFill();
+
+		//var waySprite:WayView = new WayView();
+		//waySprite.x = -27;
+		//waySprite.y = 82;
 		part.x = _digger.model.x;
 		part.y = _digger.model.y;
-		part.addChild(waySprite);
+		//part.addChild(waySprite);
 		part.rotation = _digger.view.rotation;
-		*/
+
 		return part;
 	}
 

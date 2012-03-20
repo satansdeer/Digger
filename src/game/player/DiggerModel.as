@@ -12,11 +12,13 @@ public class DiggerModel {
 
 	private var _extraModel:DiggerExtraModel
 
-	private var _sideSpeed:Number = 1;
+	private var _sideSpeed:Number;
 
 	private var _speed:Number;
 	private var _speedOffset:Number;
 
+	private const BASE_SIDE_SPEED:Number = 0.00001;
+	private const MAX_SIDE_SPEED:int = 1;
 
 	private const SPEED_DOWN_COEF:Number = .4;
 	private const SPEED_OFFSET_DOWN_COEF:Number = .4;
@@ -24,6 +26,7 @@ public class DiggerModel {
 	public function DiggerModel() {
 		super();
 		_speed = 1;
+		_sideSpeed = BASE_SIDE_SPEED;
 		_speedOffset = 0;
 		_extraModel = new DiggerExtraModel(0, 0);
 	}
@@ -56,6 +59,7 @@ public class DiggerModel {
 
 	public function setTargetX(targetX:Number):void {
 		_targetX = targetX;
+		_sideSpeed = BASE_SIDE_SPEED;
 	}
 
 	/* Internal functinos */
@@ -72,6 +76,10 @@ public class DiggerModel {
 		} else {
 			_x -= _sideSpeed;
 			if (_x < _targetX) { _x = _targetX; }
+		}
+		if (_sideSpeed != MAX_SIDE_SPEED) {
+			_sideSpeed += _sideSpeed;
+			if (_sideSpeed > MAX_SIDE_SPEED) { _sideSpeed = MAX_SIDE_SPEED; }
 		}
 		speedDown();
 	}
