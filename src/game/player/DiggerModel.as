@@ -4,6 +4,8 @@
  * Time: 3:26 PM
  */
 package game.player {
+import game.player.extra.DiggerExtraItemModel;
+import game.player.extra.DiggerExtraModel;
 
 public class DiggerModel {
 	private var _x:Number;
@@ -28,18 +30,17 @@ public class DiggerModel {
 		_speed = 1;
 		_sideSpeed = BASE_SIDE_SPEED;
 		_speedOffset = 0;
-		_extraModel = new DiggerExtraModel(0, 0);
+		_extraModel = new DiggerExtraModel();
 	}
 
 	public function tick():void {
 		updateX();
-		if (!_extraModel.isEnd()) { _extraModel.tick(); }
-		if (_extraModel.isEnd()) { _extraModel.clear(); }
+		_extraModel.tick();
 	}
 
-	public function set extraModel(value:DiggerExtraModel):void {
-		if (!value) { return; }
-		_extraModel = value;
+	public function addExtraItemModel(item:DiggerExtraItemModel):void {
+		if (!item) { return; }
+		_extraModel.addItem(item);
 	}
 
 	public function setPosition(x:Number,  y:Number):void {

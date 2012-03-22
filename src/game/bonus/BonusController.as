@@ -12,7 +12,8 @@ import game.IShifting;
 
 import game.environment.GroundController;
 import game.player.DiggerHero;
-import game.player.DiggerExtraModel;
+import game.player.extra.DiggerExtraItemModel;
+import game.player.extra.DiggerExtraModel;
 import game.player.DiggerModel;
 import game.playtime.PlayTimeModel;
 
@@ -57,7 +58,7 @@ public class BonusController implements IShifting{
 		for (var i:int = 0; i < _bonusList.length; ++i) {
 			if (_bonusList[i].hitTestObject(_digger.view)) {
 				if (_bonusList[i].type == Bonus.SPEED) {
-					_digger.model.extraModel = new DiggerExtraModel(2, 5);
+					_digger.model.addExtraItemModel( new DiggerExtraItemModel(2, 5));
 				} else {
 					_playTimeModel.resetCurrentTime();
 				}
