@@ -5,8 +5,9 @@
  */
 package core {
 import flash.display.Sprite;
+import flash.events.EventDispatcher;
 
-public class ViewController {
+public class ViewController extends EventDispatcher {
 	private var _view:Sprite;
 
 	public function ViewController(view:Sprite):void {

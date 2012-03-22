@@ -16,6 +16,7 @@ import game.environment.GroundController;
 import game.player.DiggerHero;
 import game.player.DiggerModel;
 import game.playtime.PlayTimeController;
+import game.window.WindowCollector;
 import game.world.WorldModel;
 
 import scene.IScene;
@@ -103,6 +104,7 @@ public class GameController extends EventDispatcher implements IScene{
 	}
 
 	private function stopGame():void {
+		WindowCollector.instance.showWindow(WindowCollector.END_WINDOW);
 		_paused = true;
 		_container.addEventListener(MouseEvent.CLICK, onMouseClickForEnd);
 	}

@@ -5,8 +5,10 @@
  */
 package {
 	import flash.display.Sprite;
-	
-	import scene.SceneController;
+
+import game.window.WindowCollector;
+
+import scene.SceneController;
 
 [SWF(width=500, height=500, frameRate=40)]
 public class Main extends Sprite {
@@ -17,6 +19,7 @@ public class Main extends Sprite {
 	public function Main() {
 		super();
 		var container:Sprite = new Sprite();
+		WindowCollector.instance.init(container);
 		this.addChild(container);
 		var sceneController:SceneController = new SceneController(container);
 		sceneController.openMenu();
